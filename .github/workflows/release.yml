@@ -92,7 +92,7 @@ jobs:
         sudo apt update
         sudo apt install -y python3 python3-dev python3-pip build-essential cmake
 
-    - name: Prepare CMake, Conan and PyArrow
+    - name: Prepare CMake
       run: python -m pip install --force-reinstall conan==1.60.1
 
     - name: Install ustore dependencies using conan
@@ -104,12 +104,14 @@ jobs:
         conan create ./ustore unum/x86_linux --build=missing
 
     - name: Create conan packages zip
-      run: cd ~/.conan && tar -czvf ustore_deps_x86_linux_python.tar.gz data/
+      run: |
+        cd ~/.conan && tar -czvf ustore_deps_x86_linux_python.tar.gz data/ && \
+        mv ustore_deps_x86_linux_python.tar.gz /home/runner/work/ustore-deps/ustore-deps/
                 
     - name: Upload archives to release
       uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: ~/.conan/ustore_deps_x86_linux_python.tar.gz
+        file: ustore_deps_x86_linux_python.tar.gz
         update_latest_release: true

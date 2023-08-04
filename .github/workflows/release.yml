@@ -35,7 +35,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         persist-credentials: false
-        ref: 'main'
+        ref: 'main-dev'
 
     - name: Get ustore 
       run: |
@@ -77,13 +77,15 @@ jobs:
     - uses: actions/checkout@v3
       with:
         persist-credentials: false
-        ref: 'main'
+        ref: 'main-dev'
 
     - name: Get ustore 
       run: |
         git clone https://github.com/unum-cloud/ustore.git
-        mv conanfile.py ustore/
         cd ustore/ && git checkout main-dev && git submodule update --init --recursive
+    
+    - name: Move conanfile for python to ustore
+      run: mv conanfile.py ustore/
 
     - name: Install deps
       run: |

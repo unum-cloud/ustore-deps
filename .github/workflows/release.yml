@@ -29,7 +29,7 @@ jobs:
         ref: 'main'
 
     - name: Get ustore 
-    - run: |
+      run: |
         git clone https://github.com/unum-cloud/ustore.git
         cd ustore/ && git checkout main-dev && git submodule update --init --recursive
 
@@ -70,7 +70,7 @@ jobs:
         ref: 'main'
 
     - name: Get ustore 
-    - run: |
+      run: |
         git clone https://github.com/unum-cloud/ustore.git
         cd ustore/ && git checkout main-dev && git submodule update --init --recursive
         mv ../conanfile.py .

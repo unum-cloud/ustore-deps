@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: ["main-dev"]
+    branches: ["main"]
 
 env:
   BUILD_TYPE: Release
@@ -29,13 +29,13 @@ jobs:
 
   build_conan_packages:
     name: Build conan
-    # needs: versioning
+    needs: versioning
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
         persist-credentials: false
-        ref: 'main-dev'
+        ref: 'main'
 
     - name: Get ustore 
       run: |
@@ -59,25 +59,27 @@ jobs:
         conan create ./ustore unum/x86_linux --build=missing
 
     - name: Create conan packages zip
-      run: cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/
+      run: |
+        cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/ && \
+        mv ustore_deps_x86_linux.tar.gz /home/runner/work/ustore-deps/ustore-deps/
                 
     - name: Upload archives to release
       uses: xresloader/upload-to-github-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        file: ~/.conan/ustore_deps_x86_linux.tar.gz
+        file: ustore_deps_x86_linux.tar.gz
         update_latest_release: true
 
   build_conan_packages_python:
     name: Build conan for python builds
-    # needs: versioning
+    needs: versioning
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       with:
         persist-credentials: false
-        ref: 'main-dev'
+        ref: 'main'
 
     - name: Get ustore 
       run: |

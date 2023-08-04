@@ -1,4 +1,4 @@
-name: Pre-Release
+name: Release
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
     name: Build conan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
         with:
           persist-credentials: false
           ref: 'main'
@@ -52,7 +52,7 @@ jobs:
       - name: Create conan packages zip
         run: cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/
                 
-      - name: Upload docs to release
+      - name: Upload archives to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,7 +64,7 @@ jobs:
     name: Build conan for python builds
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
         with:
           persist-credentials: false
           ref: 'main'
@@ -94,7 +94,7 @@ jobs:
       - name: Create conan packages zip
         run: cd ~/.conan && tar -czvf ustore_deps_x86_linux_python.tar.gz data/
                 
-      - name: Upload docs to release
+      - name: Upload archives to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

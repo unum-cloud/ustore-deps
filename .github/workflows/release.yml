@@ -6,6 +6,14 @@ on:
 
 env:
   BUILD_TYPE: Release
+  GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+  
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 
 jobs:
   versioning:
@@ -21,6 +29,7 @@ jobs:
 
   build_conan_packages:
     name: Build conan
+    # needs: versioning
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -47,7 +56,7 @@ jobs:
         conan profile update settings.compiler=gcc default
         conan profile update settings.compiler.version=11 default
         conan profile update settings.compiler.libcxx=libstdc++11 default
-        conan create . unum/x86_linux --build=missing
+        conan create ./ustore unum/x86_linux --build=missing
 
     - name: Create conan packages zip
       run: cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/
@@ -62,6 +71,7 @@ jobs:
 
   build_conan_packages_python:
     name: Build conan for python builds
+    # needs: versioning
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -72,8 +82,8 @@ jobs:
     - name: Get ustore 
       run: |
         git clone https://github.com/unum-cloud/ustore.git
+        mv conanfile.py ustore/
         cd ustore/ && git checkout main-dev && git submodule update --init --recursive
-        mv ../conanfile.py .
 
     - name: Install deps
       run: |
@@ -89,7 +99,7 @@ jobs:
         conan profile update settings.compiler=gcc default
         conan profile update settings.compiler.version=11 default
         conan profile update settings.compiler.libcxx=libstdc++11 default
-        conan create . unum/x86_linux --build=missing
+        conan create ./ustore unum/x86_linux --build=missing
 
     - name: Create conan packages zip
       run: cd ~/.conan && tar -czvf ustore_deps_x86_linux_python.tar.gz data/

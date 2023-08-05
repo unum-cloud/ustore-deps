@@ -52,6 +52,7 @@ jobs:
 
     - name: Install UStore dependencies using Conan
       run: |
+        sed -i 's/^\(.*\)cmake = CMake(self)/# \1cmake = CMake(self)/; s/^\(.*\)cmake.configure()/# \1cmake.configure()/; s/^\(.*\)cmake.build()/# \1cmake.build()\n       pass/' ./ustore/conanfile.py
         conan profile new --detect default
         conan profile update settings.compiler=gcc default
         conan profile update settings.compiler.version=11 default

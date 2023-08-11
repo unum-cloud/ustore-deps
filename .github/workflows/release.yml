@@ -38,6 +38,7 @@ jobs:
           conan profile update settings.compiler=gcc default
           conan profile update settings.compiler.version=11 default
           conan profile update settings.compiler.libcxx=libstdc++11 default
+          export CONAN_DISABLE_CHECK_COMPILER=1
           conan create . unum/arm_linux --build=missing
           cd ~/.conan && tar -czvf ustore_deps_arm_linux.tar.gz data/ && \
           mkdir archive && mv ustore_deps_arm_linux.tar.gz archive

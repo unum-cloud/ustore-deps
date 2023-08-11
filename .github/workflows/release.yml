@@ -40,14 +40,19 @@ jobs:
           conan profile update settings.compiler.libcxx=libstdc++11 default
           conan create . unum/arm_linux --build=missing
           cd ~/.conan && tar -czvf ustore_deps_arm_linux.tar.gz data/ && \
-          mkdir archive && mv ustore_deps_arm_linux.tar.gz archive
-        copy_repository_path: ~/.conan/archive
+          mkdir archive/ && mv ustore_deps_arm_linux.tar.gz archive/
+        copy_artifact_path: ~/.conan/archive
     
     - name: Check where file
       run: ls && ls archive/
-          
-      
-    
+
+    - name: Upload archives
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        file: ustore_deps_arm_linux.tar.gz
+        update_latest_release: true
     
 #   versioning:
 #     name: Semantic Release

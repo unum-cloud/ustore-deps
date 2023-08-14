@@ -29,7 +29,7 @@ COPY . /usr/src/ustore-deps
 RUN git clone https://github.com/unum-cloud/ustore.git && \
     cd ustore/ && git checkout main-dev && git submodule update --init --recursive
 
-# Disable ustore-deps build
+# Disable ustore-deps package build
 RUN sed -i 's/^\(.*\)cmake = CMake(self)/# \1cmake = CMake(self)/; s/^\(.*\)cmake.configure()/# \1cmake.configure()/; s/^\(.*\)cmake.build()/# \1cmake.build()\n       pass/' ./ustore/conanfile.py
 
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \

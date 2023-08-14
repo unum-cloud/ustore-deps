@@ -156,7 +156,7 @@ jobs:
           docker buildx build \
           --platform "linux/arm64" \
           --build-arg docker_ip=${{ steps.dockerip.outputs.docker_ip }} \
-          --build-arg user_pass=$${{ steps.userpass.outputs.user_pass }} \
+          --build-arg user_pass=${{ steps.userpass.outputs.user_pass }} \
           --file ./Dockerfile \
           --tag unum/ustore-deps:latest \
           --output type=registry .

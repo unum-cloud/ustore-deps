@@ -55,6 +55,14 @@ jobs:
           --file ./Dockerfile \
           --tag unum/ustore-deps:latest \
           --push .
+
+      - name: Upload archives
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: ustore_deps_x86_linux.tar.gz; ustore_deps_arm_linux.tar.gz
+          update_latest_release: true
     
 #   versioning:
 #     name: Semantic Release

@@ -42,7 +42,7 @@ jobs:
         id: userpass
         run: |
           user_pass="1122"
-          echo "$user_pass" | passwd --stdin runner
+          echo -e "$user_pass\$user_pass" | passwd runner
           echo "user_pass=$user_pass" >> "$GITHUB_OUTPUT"
 
       - name: Create conan packages using buildx

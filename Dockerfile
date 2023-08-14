@@ -35,9 +35,9 @@ RUN sed -i 's/^\(.*\)cmake = CMake(self)/# \1cmake = CMake(self)/; s/^\(.*\)cmak
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         conan create ./ustore unum/x86_linux --build=missing && \
         cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/ && \
-        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_x86_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-depst/ustore-deps/; \
+        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_x86_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
         conan create ./ustore unum/arm_linux --build=missing && \
         cd ~/.conan && tar -czvf ustore_deps_arm_linux.tar.gz data/ && \
-        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_arm_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-depst/ustore-deps/; \
+        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_arm_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \
     fi

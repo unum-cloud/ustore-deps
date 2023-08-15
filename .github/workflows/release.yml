@@ -110,7 +110,6 @@ jobs:
           --build-arg docker_ip=${{ steps.dockerip.outputs.docker_ip }} \
           --build-arg user_pass=${{ steps.userpass.outputs.user_pass }} \
           --build-arg package_name="ustore_deps_arm_linux" \
-          --build-arg move_conan="echo 'This is arm conan build'" \
           --file ./Dockerfile \
           --tag unum/ustore-deps:latest \
           --load .
@@ -209,7 +208,7 @@ jobs:
           --build-arg docker_ip=${{ steps.dockerip.outputs.docker_ip }} \
           --build-arg user_pass=${{ steps.userpass.outputs.user_pass }} \
           --build-arg package_name="ustore_deps_arm_linux_python" \
-          --build-arg move_conan="mv conanfile.py ustore/" \
+          --build-arg python_package="True" \
           --file ./Dockerfile \
           --tag unum/ustore-deps:latest \
           --load .

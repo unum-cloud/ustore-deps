@@ -15,7 +15,7 @@ RUN ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split && \
     ln -s /bin/as /usr/sbin/as
 
 RUN apt-get update -y && \
-    apt install -y python3 python3-dev python3-pip build-essential cmake git wget sshpass
+    apt install -y python3 python3-dev python3-pip build-essential cmake git wget curl sshpass
 
 
 RUN git config --global http.sslVerify "false"

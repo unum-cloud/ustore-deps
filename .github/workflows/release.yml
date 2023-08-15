@@ -102,19 +102,6 @@ jobs:
           echo "runner:$user_pass" | sudo chpasswd
           echo "user_pass=$user_pass" >> "$GITHUB_OUTPUT"
 
-      - name: Get previous tag
-        id: previoustag
-        run: |
-          previous_tag=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
-          echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
-
-      - name: Get asset from previous tag
-        uses: dsaltares/fetch-gh-release-asset@master
-        with:
-          version: 'tags/${{ steps.previoustag.outputs.previous_tag }}'
-          file: 'ustore_deps_arm_linux.tar.gz'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create conan packages using buildx
         run: |
           docker buildx create --use
@@ -123,7 +110,6 @@ jobs:
           --build-arg docker_ip=${{ steps.dockerip.outputs.docker_ip }} \
           --build-arg user_pass=${{ steps.userpass.outputs.user_pass }} \
           --build-arg package_name="ustore_deps_arm_linux" \
-          --build-arg command="echo 'This is not python package'"
           --file ./Dockerfile \
           --tag unum/ustore-deps:latest \
           --load .
@@ -213,20 +199,7 @@ jobs:
           user_pass="1122"
           echo "runner:$user_pass" | sudo chpasswd
           echo "user_pass=$user_pass" >> "$GITHUB_OUTPUT"
-
-      - name: Get previous tag
-        id: previoustag
-        run: |
-          previous_tag=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1))
-          echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
-
-      - name: Get asset from previous tag
-        uses: dsaltares/fetch-gh-release-asset@master
-        with:
-          version: 'tags/${{ steps.previoustag.outputs.previous_tag }}'
-          file: 'ustore_deps_arm_linux_python.tar.gz'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: Create conan packages using buildx
         run: |
           docker buildx create --use

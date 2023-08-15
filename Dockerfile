@@ -37,7 +37,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/ && \
         sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_x86_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-        wget -q https://github.com/gurgenyegoryan/ustore-deps-test/releases/download/main-dev/ustore_deps_arm_linux.tar.gz && tar -xzf ./ustore_deps_arm_linux.tar.gz -C ~/.conan && \
+        tar -xzf ./ustore_deps_arm_linux.tar.gz -C ~/.conan && \
         rm -rf ~/.conan/data/ustore* && \
         conan create ./ustore unum/arm_linux --build=missing && \
         cd ~/.conan && tar -czvf ustore_deps_arm_linux.tar.gz data/ && \

@@ -28,7 +28,7 @@ jobs:
 
 
   create_conan_packages_amd64:
-    name: Create Conan Package for Linux AMD
+    name: Create Conan Packages for Linux AMD
     needs: versioning
     runs-on: ubuntu-latest
     steps:
@@ -49,7 +49,7 @@ jobs:
     - name: Prepare CMake, Conan, and PyArrow
       run: python -m pip install --force-reinstall conan==1.60.1
 
-    - name: Create Conan package for AMD
+    - name: Create Conan packages for AMD
       run: |
         sed -i 's/^\(.*\)cmake = CMake(self)/# \1cmake = CMake(self)/; s/^\(.*\)cmake.configure()/# \1cmake.configure()/; s/^\(.*\)cmake.build()/# \1cmake.build()\n       pass/' ./ustore/conanfile.py
         conan profile new --detect default
@@ -73,7 +73,7 @@ jobs:
 
 
   create_conan_packages_arm64:
-    name: Create Conan package for Linux ARM
+    name: Create Conan packages for Linux ARM
     runs-on: ubuntu-latest
     needs: versioning
     steps:
@@ -102,7 +102,7 @@ jobs:
           echo "runner:$user_pass" | sudo chpasswd
           echo "user_pass=$user_pass" >> "$GITHUB_OUTPUT"
 
-      - name: Create Conan packages using Docker buildx
+      - name: Create Conan packages for ARM
         run: |
           docker buildx create --use
           docker buildx build \
@@ -126,7 +126,7 @@ jobs:
           update_latest_release: true
 
   create_conan_packages_python_amd64:
-    name: Create Conan Package for Linux AMD Python SDK
+    name: Create Conan Packages for Linux AMD Python SDK
     needs: versioning
     runs-on: ubuntu-latest
     steps:
@@ -151,7 +151,7 @@ jobs:
     - name: Prepare CMake
       run: python -m pip install --force-reinstall conan==1.60.1
 
-    - name: Create conan package amd64 for Python SDK
+    - name: Create Conan packages AMD for Python SDK
       run: |
         conan profile new --detect default
         conan profile update settings.compiler=gcc default
@@ -174,7 +174,7 @@ jobs:
 
 
   build_conan_packages_python_arm64:
-    name: Build Conan Package for Linux ARM Python SDK
+    name: Create Conan Packages for Linux ARM Python SDK
     runs-on: ubuntu-latest
     needs: versioning
     steps:
@@ -203,7 +203,7 @@ jobs:
           echo "runner:$user_pass" | sudo chpasswd
           echo "user_pass=$user_pass" >> "$GITHUB_OUTPUT"
           
-      - name: Create Conan packages using Docker buildx
+      - name: Create Conan packages ARM for Python SDK
         run: |
           docker buildx create --use
           docker buildx build \

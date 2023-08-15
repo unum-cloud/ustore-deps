@@ -48,5 +48,6 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         fi && \
         conan create ./ustore unum/arm_linux --build=missing && \
         cd ~/.conan && tar -czvf "$package_name".tar.gz data/ && \
-        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no "$package_name".tar.gz "$user_name"@"$docker_ip":/home/"$user_name"/work/ustore-deps/ustore-deps/; \
+        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no "$package_name".tar.gz "$user_name"@"$docker_ip":/home/"$user_name"/work/ustore-deps/ustore-deps/ && \
+        rm -rf "$package_name".tar.gz; \
     fi

@@ -44,7 +44,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         tar -xzf "$package_name".tar.gz -C ~/.conan && rm -rf "$package_name".tar.gz && \
         rm -rf ~/.conan/data/ustore* && \
         if [ "$python_package" == "True" ]; then \
-            mv conanfile.py ./ustore;
+            mv conanfile.py ./ustore; \
         fi && \
         conan create ./ustore unum/arm_linux --build=missing && \
         cd ~/.conan && tar -czvf "$package_name".tar.gz data/ && \

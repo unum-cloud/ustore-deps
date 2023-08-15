@@ -37,6 +37,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/ && \
         sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_x86_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        wget -q https://github.com/unum-cloud/ustore-deps/releases/download/v0.1.2/ustore_deps_arm_linux.tar.gz && tar -xzvf ustore_deps_arm_linux.tar.gz ~/.conan && \
         conan create ./ustore unum/arm_linux --build=missing && \
         cd ~/.conan && tar -czvf ustore_deps_arm_linux.tar.gz data/ && \
         sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_arm_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \

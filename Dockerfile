@@ -43,7 +43,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         wget -q https://github.com/unum-cloud/ustore-deps/releases/download/${last_tag}/"$package_name".tar.gz && \
         tar -xzf "$package_name".tar.gz -C ~/.conan && rm -rf "$package_name".tar.gz && \
         rm -rf ~/.conan/data/ustore* && \
-        if [ "$python_package" == True ]; then \
+        if [ "$python_package" == "True" ]; then \
             mv conanfile.py ./ustore;
         fi && \
         conan create ./ustore unum/arm_linux --build=missing && \

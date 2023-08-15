@@ -1,10 +1,12 @@
 FROM ubuntu:22.04 as builder
 
 ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/London"
-
+ENV user_name="runner"
 ARG TARGETPLATFORM
 ARG docker_ip
 ARG user_pass
+ARG move_conanfile
+ARG package_name
 
 RUN ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split && \
     ln -s /usr/bin/dpkg-deb /usr/sbin/dpkg-deb && \
@@ -35,11 +37,12 @@ RUN sed -i 's/^\(.*\)cmake = CMake(self)/# \1cmake = CMake(self)/; s/^\(.*\)cmak
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
         conan create ./ustore unum/x86_linux --build=missing && \
         cd ~/.conan && tar -czvf ustore_deps_x86_linux.tar.gz data/ && \
-        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_x86_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \
+        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_x86_linux.tar.gz ${user_name}@"$docker_ip":/home/${user_name}/work/ustore-deps/ustore-deps/; \
     elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-        tar -xzf ./ustore_deps_arm_linux.tar.gz -C ~/.conan && \
+        tar -xzf "$package_name".tar.gz -C ~/.conan && rm -rf "$package_name".tar.gz && \
         rm -rf ~/.conan/data/ustore* && \
+        "$move_conanfile" && \
         conan create ./ustore unum/arm_linux --build=missing && \
-        cd ~/.conan && tar -czvf ustore_deps_arm_linux.tar.gz data/ && \
-        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no ustore_deps_arm_linux.tar.gz runner@"$docker_ip":/home/runner/work/ustore-deps/ustore-deps/; \
+        cd ~/.conan && tar -czvf "$package_name".tar.gz data/ && \
+        sshpass -p "$user_pass" scp -o StrictHostKeyChecking=no "$package_name".tar.gz "$user_name"@"$docker_ip":/home/"$user_name"/work/ustore-deps/ustore-deps/; \
     fi

@@ -140,7 +140,6 @@ class ConanUStore(ConanFile):
         self.requires('nlohmann_json/3.11.2')
         self.requires('yyjson/0.6.0')
         self.requires('simdjson/3.1.7')
-        self.requires('gtest/1.13.0')
         self.requires('benchmark/1.7.1')
         self.requires('argparse/2.9')
         self.requires('clipp/1.2.3')
